@@ -1,0 +1,23 @@
+# All Targets
+all: run
+
+
+run: start.o  lab4_util.o task1.o	
+	ld -m elf_x86_64 -o run start.o task1.o lab4_util.o 
+
+start.o: start.s
+	nasm -f elf64 start.s -o start.o 
+
+lab4_util.o: lab4_util.c lab4_util.h
+	gcc -m64 -Wall -ansi -c -nostdlib -fno-stack-protector lab4_util.c -o lab4_util.o 
+ 
+task1.o: task1.c lab4_util.h
+	gcc -m64 -Wall -ansi -c -nostdlib -fno-stack-protector task1.c -o task1.o
+
+	
+
+.PHONY: clean
+
+#Clean the build directory
+clean: 
+	rm -f *.o run
